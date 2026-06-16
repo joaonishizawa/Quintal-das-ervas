@@ -1,0 +1,585 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Quintal das Ervas — Curitiba</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --verde-musgo:  #3B4F35;
+      --verde-claro:  #6D8B5F;
+      --creme:        #F7F3EB;
+      --areia:        #E4DDD0;
+      --terra:        #8C6A4E;
+      --texto:        #2A2A25;
+      --texto-suave:  #5E5E56;
+      --branco:       #FFFFFF;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--creme);
+      color: var(--texto);
+      overflow-x: hidden;
+    }
+
+    /* ─── NAV ─── */
+    nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 1.2rem 6vw;
+      background: rgba(247, 243, 235, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--areia);
+    }
+    .nav-logo {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.25rem;
+      color: var(--verde-musgo);
+      letter-spacing: .02em;
+    }
+    .nav-links { display: flex; gap: 2rem; list-style: none; }
+    .nav-links a {
+      font-size: .85rem; font-weight: 500; letter-spacing: .06em;
+      text-transform: uppercase; color: var(--texto-suave);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-links a:hover { color: var(--verde-musgo); }
+    .nav-cta {
+      background: var(--verde-musgo); color: var(--creme) !important;
+      padding: .55rem 1.3rem; border-radius: 99px;
+    }
+    .nav-cta:hover { background: var(--verde-claro); color: var(--branco) !important; }
+
+    /* ─── HERO ─── */
+    .hero {
+      min-height: 100vh;
+      display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+      padding: 8rem 6vw 4rem;
+      gap: 4rem;
+      position: relative; overflow: hidden;
+    }
+    .hero::after {
+      content: '';
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 60% 70% at 110% 40%, rgba(109,139,95,.12) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    /* ─── floating botanical shapes ─── */
+    .botanical-bg {
+      position: absolute; right: -4vw; top: 50%;
+      transform: translateY(-50%);
+      width: 52vw; height: 52vw; max-width: 600px; max-height: 600px;
+      opacity: .07;
+      pointer-events: none;
+    }
+
+    .hero-eyebrow {
+      display: inline-block;
+      font-size: .72rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--verde-claro);
+      border-left: 2px solid var(--verde-claro);
+      padding-left: .75rem; margin-bottom: 1.6rem;
+    }
+    .hero-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(2.8rem, 5.5vw, 5rem);
+      line-height: 1.1; color: var(--verde-musgo);
+      margin-bottom: 1.6rem;
+    }
+    .hero-title em { font-style: italic; color: var(--verde-claro); }
+    .hero-desc {
+      font-size: 1.1rem; line-height: 1.75;
+      color: var(--texto-suave); max-width: 44ch;
+      margin-bottom: 2.4rem;
+    }
+    .hero-actions { display: flex; gap: 1rem; flex-wrap: wrap; }
+
+    .btn-primary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: var(--verde-musgo); color: var(--creme);
+      padding: .85rem 2rem; border-radius: 99px;
+      font-size: .9rem; font-weight: 500; text-decoration: none;
+      transition: background .2s, transform .15s;
+    }
+    .btn-primary:hover { background: var(--verde-claro); transform: translateY(-2px); }
+
+    .btn-secondary {
+      display: inline-flex; align-items: center; gap: .6rem;
+      border: 1.5px solid var(--verde-musgo); color: var(--verde-musgo);
+      padding: .85rem 2rem; border-radius: 99px;
+      font-size: .9rem; font-weight: 500; text-decoration: none;
+      transition: background .2s, color .2s, transform .15s;
+    }
+    .btn-secondary:hover {
+      background: var(--verde-musgo); color: var(--creme);
+      transform: translateY(-2px);
+    }
+
+    /* ─── visual card cluster ─── */
+    .hero-visual {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      grid-template-rows: auto auto;
+      gap: 1rem;
+    }
+    .herb-card {
+      background: var(--branco);
+      border-radius: 18px;
+      padding: 1.8rem 1.4rem;
+      display: flex; flex-direction: column; align-items: flex-start; gap: .6rem;
+      box-shadow: 0 2px 14px rgba(59,79,53,.07);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .herb-card:hover { transform: translateY(-4px); box-shadow: 0 8px 28px rgba(59,79,53,.13); }
+    .herb-card.tall { grid-row: span 2; justify-content: center; background: var(--verde-musgo); color: var(--creme); }
+    .herb-card.tall .herb-name { color: var(--creme); }
+    .herb-card.accent { background: var(--areia); }
+    .herb-icon { font-size: 2rem; }
+    .herb-name {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.15rem; color: var(--verde-musgo); font-weight: 700;
+    }
+    .herb-desc { font-size: .82rem; color: var(--texto-suave); line-height: 1.55; }
+    .herb-card.tall .herb-desc { color: rgba(247,243,235,.7); }
+
+    /* ─── BAND ─── */
+    .band {
+      background: var(--verde-musgo);
+      color: var(--creme);
+      padding: 1.2rem 6vw;
+      display: flex; gap: 3rem; align-items: center; flex-wrap: wrap;
+      justify-content: center;
+    }
+    .band-item { display: flex; align-items: center; gap: .7rem; font-size: .88rem; }
+    .band-item span { font-size: 1.2rem; }
+
+    /* ─── SECTIONS shared ─── */
+    section { padding: 6rem 6vw; }
+    .section-eyebrow {
+      font-size: .72rem; font-weight: 500; letter-spacing: .14em;
+      text-transform: uppercase; color: var(--verde-claro);
+      border-left: 2px solid var(--verde-claro); padding-left: .75rem;
+      margin-bottom: 1.2rem;
+    }
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.9rem, 3.5vw, 2.8rem);
+      color: var(--verde-musgo); margin-bottom: 1.2rem; line-height: 1.2;
+    }
+
+    /* ─── SOBRE ─── */
+    .sobre { background: var(--branco); }
+    .sobre-inner {
+      display: grid; grid-template-columns: 1.1fr 1fr; gap: 5rem; align-items: center;
+    }
+    .sobre-text p {
+      font-size: 1.05rem; line-height: 1.8; color: var(--texto-suave); margin-bottom: 1.2rem;
+    }
+    .sobre-stats {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .stat-box {
+      background: var(--creme);
+      border-radius: 16px; padding: 1.6rem;
+      border: 1px solid var(--areia);
+    }
+    .stat-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 2.8rem; color: var(--verde-musgo); font-weight: 700; line-height: 1;
+    }
+    .stat-label { font-size: .82rem; color: var(--texto-suave); margin-top: .4rem; }
+
+    /* ─── DESTAQUES ─── */
+    .destaques-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+      margin-top: 3rem;
+    }
+    .produto-card {
+      background: var(--branco);
+      border-radius: 20px; padding: 2rem 1.6rem;
+      border: 1px solid var(--areia);
+      transition: transform .2s, box-shadow .2s;
+    }
+    .produto-card:hover { transform: translateY(-5px); box-shadow: 0 12px 32px rgba(59,79,53,.1); }
+    .produto-icon { font-size: 2.4rem; margin-bottom: 1rem; }
+    .produto-nome {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.2rem; color: var(--verde-musgo); margin-bottom: .5rem;
+    }
+    .produto-desc { font-size: .88rem; color: var(--texto-suave); line-height: 1.6; }
+
+    /* ─── AVALIAÇÕES ─── */
+    .avaliacoes { background: var(--verde-musgo); }
+    .avaliacoes .section-eyebrow { color: rgba(247,243,235,.7); border-color: rgba(247,243,235,.4); }
+    .avaliacoes .section-title { color: var(--creme); }
+    .stars-total {
+      display: flex; align-items: baseline; gap: 1rem; margin-bottom: 3rem;
+    }
+    .stars-num {
+      font-family: 'Playfair Display', serif;
+      font-size: 5rem; color: var(--creme); line-height: 1;
+    }
+    .stars-detail { color: rgba(247,243,235,.7); }
+    .stars-row { font-size: 1.4rem; margin-bottom: .3rem; }
+    .reviews-grid {
+      display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem;
+    }
+    .review-card {
+      background: rgba(255,255,255,.06);
+      border: 1px solid rgba(255,255,255,.12);
+      border-radius: 18px; padding: 1.8rem;
+    }
+    .review-stars { font-size: 1rem; margin-bottom: 1rem; }
+    .review-text {
+      font-size: .95rem; color: rgba(247,243,235,.88);
+      line-height: 1.7; margin-bottom: 1.2rem;
+      font-style: italic;
+    }
+    .review-author { font-size: .82rem; color: rgba(247,243,235,.55); font-weight: 500; }
+
+    /* ─── LOCALIZAÇÃO ─── */
+    .localizacao-inner {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;
+    }
+    .info-list { list-style: none; display: flex; flex-direction: column; gap: 1.4rem; margin-top: 2rem; }
+    .info-item {
+      display: flex; align-items: flex-start; gap: 1rem;
+    }
+    .info-icon {
+      width: 42px; height: 42px; flex-shrink: 0;
+      background: var(--areia); border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.1rem;
+    }
+    .info-label { font-size: .75rem; font-weight: 500; color: var(--verde-claro); text-transform: uppercase; letter-spacing: .07em; }
+    .info-value { font-size: .95rem; color: var(--texto); margin-top: .15rem; line-height: 1.5; }
+
+    .map-placeholder {
+      background: var(--areia);
+      border-radius: 20px; overflow: hidden;
+      aspect-ratio: 4/3;
+      position: relative;
+      border: 1px solid rgba(59,79,53,.1);
+    }
+    .map-placeholder iframe {
+      width: 100%; height: 100%; border: none;
+    }
+
+    /* ─── CONTATO BAND ─── */
+    .contato-band {
+      background: var(--terra);
+      padding: 4rem 6vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 2rem;
+    }
+    .contato-band h2 {
+      font-family: 'Playfair Display', serif;
+      font-size: clamp(1.5rem, 3vw, 2.4rem);
+      color: var(--creme); max-width: 36ch; line-height: 1.25;
+    }
+    .contato-btns { display: flex; gap: 1rem; flex-wrap: wrap; }
+    .btn-wpp {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: #25D366; color: white;
+      padding: .9rem 1.8rem; border-radius: 99px;
+      font-size: .9rem; font-weight: 500; text-decoration: none;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-wpp:hover { opacity: .88; transform: translateY(-2px); }
+    .btn-insta {
+      display: inline-flex; align-items: center; gap: .6rem;
+      background: linear-gradient(135deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
+      color: white;
+      padding: .9rem 1.8rem; border-radius: 99px;
+      font-size: .9rem; font-weight: 500; text-decoration: none;
+      transition: opacity .2s, transform .15s;
+    }
+    .btn-insta:hover { opacity: .88; transform: translateY(-2px); }
+
+    /* ─── FOOTER ─── */
+    footer {
+      background: var(--texto);
+      color: rgba(247,243,235,.5);
+      padding: 2.5rem 6vw;
+      display: flex; align-items: center; justify-content: space-between;
+      flex-wrap: wrap; gap: 1rem;
+      font-size: .82rem;
+    }
+    footer .logo-footer {
+      font-family: 'Playfair Display', serif;
+      font-size: 1.1rem; color: var(--creme);
+    }
+
+    /* ─── MOBILE ─── */
+    @media (max-width: 820px) {
+      nav { padding: 1rem 5vw; }
+      .nav-links { display: none; }
+      .hero { grid-template-columns: 1fr; padding: 7rem 5vw 3rem; gap: 2.5rem; }
+      .hero-visual { grid-template-columns: 1fr 1fr; }
+      .hero::after { display: none; }
+      .sobre-inner { grid-template-columns: 1fr; gap: 3rem; }
+      .destaques-grid { grid-template-columns: 1fr 1fr; }
+      .reviews-grid { grid-template-columns: 1fr; }
+      .localizacao-inner { grid-template-columns: 1fr; }
+      .contato-band { flex-direction: column; align-items: flex-start; }
+    }
+    @media (max-width: 500px) {
+      .destaques-grid { grid-template-columns: 1fr; }
+      .hero-visual { grid-template-columns: 1fr; }
+      .herb-card.tall { grid-row: span 1; }
+      .sobre-stats { grid-template-columns: 1fr 1fr; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      * { transition: none !important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ─── NAV ─── -->
+<nav>
+  <div class="nav-logo">Quintal das Ervas</div>
+  <ul class="nav-links">
+    <li><a href="#sobre">Sobre</a></li>
+    <li><a href="#produtos">Produtos</a></li>
+    <li><a href="#avaliacoes">Avaliações</a></li>
+    <li><a href="#localizacao">Localização</a></li>
+    <li><a href="https://api.whatsapp.com/message/IWA5IWYJHFAAD1?autoload=1&app_absent=0" class="nav-cta">Fale Conosco</a></li>
+  </ul>
+</nav>
+
+<!-- ─── HERO ─── -->
+<section class="hero">
+  <!-- decorative leaf SVG -->
+  <svg class="botanical-bg" viewBox="0 0 400 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M200 380 C80 340 20 240 40 140 C60 40 160 10 200 20 C240 10 340 40 360 140 C380 240 320 340 200 380Z" fill="#3B4F35"/>
+    <path d="M200 20 L200 380" stroke="#6D8B5F" stroke-width="2"/>
+    <path d="M200 120 C150 100 120 60 140 40" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 180 C130 150 90 100 120 80" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 240 C120 210 80 160 110 130" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 300 C140 280 110 240 140 200" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 120 C250 100 280 60 260 40" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 180 C270 150 310 100 280 80" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 240 C280 210 320 160 290 130" stroke="#6D8B5F" stroke-width="1.5"/>
+    <path d="M200 300 C260 280 290 240 260 200" stroke="#6D8B5F" stroke-width="1.5"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Curitiba — Centro</p>
+    <h1 class="hero-title">Natureza no seu<br/><em>quintal</em></h1>
+    <p class="hero-desc">Ervas frescas, produtos naturais e um atendimento que faz você se sentir em casa. Desde Curitiba, para quem cuida de si.</p>
+    <div class="hero-actions">
+      <a href="https://api.whatsapp.com/message/IWA5IWYJHFAAD1?autoload=1&app_absent=0" target="_blank" class="btn-primary">
+        <span>📲</span> Falar no WhatsApp
+      </a>
+      <a href="#localizacao" class="btn-secondary">
+        <span>📍</span> Como chegar
+      </a>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <div class="herb-card tall">
+      <div class="herb-icon">🌿</div>
+      <div class="herb-name" style="color:var(--creme)">Ervas Frescas</div>
+      <div class="herb-desc">Colhidas com cuidado e sempre fresquinhas para você.</div>
+    </div>
+    <div class="herb-card">
+      <div class="herb-icon">🫖</div>
+      <div class="herb-name">Chás & Infusos</div>
+      <div class="herb-desc">Blend artesanal de sabores curativos.</div>
+    </div>
+    <div class="herb-card accent">
+      <div class="herb-icon">🧴</div>
+      <div class="herb-name">Naturais & Orgânicos</div>
+      <div class="herb-desc">Sem conservantes, com consciência.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── BAND INFO ─── -->
+<div class="band">
+  <div class="band-item"><span>⭐</span> 4,9 no Google Maps</div>
+  <div class="band-item"><span>🕐</span> Aberto até 18h30</div>
+  <div class="band-item"><span>📦</span> Retirada na loja</div>
+  <div class="band-item"><span>📍</span> Av. Sete de Setembro, 3390 — Centro</div>
+</div>
+
+<!-- ─── SOBRE ─── -->
+<section class="sobre" id="sobre">
+  <div class="sobre-inner">
+    <div class="sobre-text">
+      <p class="section-eyebrow">Nossa História</p>
+      <h2 class="section-title">Um espaço pensado para quem ama o natural</h2>
+      <p>O Quintal das Ervas nasceu com um propósito simples: trazer até você produtos naturais de qualidade, com preços justos e o cuidado de quem entende do assunto.</p>
+      <p>Localizado no coração de Curitiba, nossa loja é conhecida pelo atendimento caloroso, pela variedade de ervas frescas e pela confiança que construímos com cada cliente que passa pela nossa porta.</p>
+      <a href="https://www.instagram.com/quintaldaservascuritiba/" target="_blank" class="btn-secondary" style="margin-top:1.5rem; display:inline-flex">
+        <span>📸</span> Ver no Instagram
+      </a>
+    </div>
+    <div class="sobre-stats">
+      <div class="stat-box">
+        <div class="stat-num">4,9</div>
+        <div class="stat-label">⭐ Nota no Google</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">15+</div>
+        <div class="stat-label">Avaliações 5 estrelas</div>
+      </div>
+      <div class="stat-box" style="grid-column: span 2; background: var(--verde-musgo)">
+        <div class="stat-num" style="color:var(--creme)">100%</div>
+        <div class="stat-label" style="color:rgba(247,243,235,.7)">Foco em produtos frescos e naturais</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── PRODUTOS ─── -->
+<section id="produtos" style="background: var(--creme);">
+  <p class="section-eyebrow">O que você encontra</p>
+  <h2 class="section-title">Produtos selecionados<br/>com carinho</h2>
+  <div class="destaques-grid">
+    <div class="produto-card">
+      <div class="produto-icon">🌱</div>
+      <div class="produto-nome">Ervas Medicinais</div>
+      <div class="produto-desc">Camomila, hortelã, erva-cidreira, boldo e muito mais — sempre frescas e selecionadas.</div>
+    </div>
+    <div class="produto-card">
+      <div class="produto-icon">🫖</div>
+      <div class="produto-nome">Chás & Blends</div>
+      <div class="produto-desc">Combinações especiais para relaxar, fortalecer a imunidade ou simplesmente apreciar o momento.</div>
+    </div>
+    <div class="produto-card">
+      <div class="produto-icon">🌸</div>
+      <div class="produto-nome">Florais & Aromaterapia</div>
+      <div class="produto-desc">Óleos essenciais, flores secas e produtos para equilibrar corpo e mente.</div>
+    </div>
+    <div class="produto-card">
+      <div class="produto-icon">🧴</div>
+      <div class="produto-nome">Cosméticos Naturais</div>
+      <div class="produto-desc">Cremes, sabonetes e tônicos feitos com ingredientes naturais, sem fórmulas agressivas.</div>
+    </div>
+    <div class="produto-card">
+      <div class="produto-icon">🌾</div>
+      <div class="produto-nome">Grãos & Sementes</div>
+      <div class="produto-desc">Linhaça, chia, quinoa e outros superalimentos para uma alimentação mais saudável.</div>
+    </div>
+    <div class="produto-card">
+      <div class="produto-icon">🍯</div>
+      <div class="produto-nome">Mel & Extratos</div>
+      <div class="produto-desc">Própolis, extrato de própolis e méis puros direto para fortalecer sua saúde.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── AVALIAÇÕES ─── -->
+<section class="avaliacoes" id="avaliacoes">
+  <p class="section-eyebrow">O que dizem os clientes</p>
+  <h2 class="section-title">Quem visita,<br/>sempre volta</h2>
+  <div class="stars-total">
+    <div class="stars-num">4,9</div>
+    <div class="stars-detail">
+      <div class="stars-row">⭐⭐⭐⭐⭐</div>
+      <div>15 avaliações no Google</div>
+    </div>
+  </div>
+  <div class="reviews-grid">
+    <div class="review-card">
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">"Excelentes produtos. Super recomendo. Sempre que vou ao estabelecimento sou muito bem atendido."</p>
+      <div class="review-author">Marcos Vinnycios — Local Guide</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">"Loja muito aconchegante, atendentes educados e prestativos! Preços bons, e produtos fresquinhos 😁"</p>
+      <div class="review-author">Luka Lima</div>
+    </div>
+    <div class="review-card">
+      <div class="review-stars">⭐⭐⭐⭐⭐</div>
+      <p class="review-text">"Ótimoos preços e ótimo atendimento!! Recomendo demais para quem quer encontrar produtos naturais com qualidade."</p>
+      <div class="review-author">Daniel S. (Dan)</div>
+    </div>
+  </div>
+</section>
+
+<!-- ─── LOCALIZAÇÃO ─── -->
+<section id="localizacao" style="background: var(--branco);">
+  <div class="localizacao-inner">
+    <div>
+      <p class="section-eyebrow">Onde Estamos</p>
+      <h2 class="section-title">Venha nos visitar em Curitiba</h2>
+      <ul class="info-list">
+        <li class="info-item">
+          <div class="info-icon">📍</div>
+          <div>
+            <div class="info-label">Endereço</div>
+            <div class="info-value">Av. Sete de Setembro, 3390<br/>Centro — Curitiba, PR, 80230-085</div>
+          </div>
+        </li>
+        <li class="info-item">
+          <div class="info-icon">🕐</div>
+          <div>
+            <div class="info-label">Horário</div>
+            <div class="info-value">Aberto hoje · Fecha às 18h30</div>
+          </div>
+        </li>
+        <li class="info-item">
+          <div class="info-icon">📞</div>
+          <div>
+            <div class="info-label">Telefone</div>
+            <div class="info-value"><a href="tel:+5541997191243" style="color:var(--verde-musgo); text-decoration:none">(41) 99719-1243</a></div>
+          </div>
+        </li>
+        <li class="info-item">
+          <div class="info-icon">🛍️</div>
+          <div>
+            <div class="info-label">Opções</div>
+            <div class="info-value">Compras na loja · Retirada na loja</div>
+          </div>
+        </li>
+      </ul>
+      <a href="https://www.google.com/maps/search/?api=1&query=Quintal+das+Ervas+Curitiba+Av+Sete+de+Setembro+3390" target="_blank" class="btn-primary" style="margin-top:2rem; display:inline-flex">
+        <span>🗺️</span> Abrir no Google Maps
+      </a>
+    </div>
+    <div class="map-placeholder">
+      <iframe
+        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3601.5!2d-49.286!3d-25.432!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x94dce4a218f3a375%3A0x0!2sAv.%20Sete%20de%20Setembro%2C%203390%20-%20Centro%2C%20Curitiba%20-%20PR%2C%2080230-085!5e0!3m2!1spt-BR!2sbr!4v1"
+        allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
+      </iframe>
+    </div>
+  </div>
+</section>
+
+<!-- ─── CONTATO BAND ─── -->
+<div class="contato-band">
+  <h2>Dúvidas ou quer saber se tem aquela erva especial? Chame a gente.</h2>
+  <div class="contato-btns">
+    <a href="https://api.whatsapp.com/message/IWA5IWYJHFAAD1?autoload=1&app_absent=0&utm_source=ig" target="_blank" class="btn-wpp">
+      💬 WhatsApp
+    </a>
+    <a href="https://www.instagram.com/quintaldaservascuritiba/" target="_blank" class="btn-insta">
+      📸 Instagram
+    </a>
+  </div>
+</div>
+
+<!-- ─── FOOTER ─── -->
+<footer>
+  <span class="logo-footer">Quintal das Ervas</span>
+  <span>© 2025 · Av. Sete de Setembro, 3390, Curitiba — PR</span>
+  <span>
+    <a href="https://www.instagram.com/quintaldaservascuritiba/" target="_blank" style="color:rgba(247,243,235,.5); text-decoration:none; margin-right:1rem">Instagram</a>
+    <a href="https://api.whatsapp.com/message/IWA5IWYJHFAAD1?autoload=1&app_absent=0" target="_blank" style="color:rgba(247,243,235,.5); text-decoration:none">WhatsApp</a>
+  </span>
+</footer>
+
+</body>
+</html>
